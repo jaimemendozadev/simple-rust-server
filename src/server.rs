@@ -15,5 +15,12 @@ impl Server {
     pub fn run(self) {
         let listener = TcpListener::bind(&self.addr).unwrap();
         println!("Running on {} ", self.addr);
+
+        loop {
+            match listener.accept() {
+                Ok((stream, addr)) => {}
+                Err(e) => print!("Failed to establish a connection: {} ", e),
+            }
+        }
     }
 }
