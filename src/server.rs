@@ -1,3 +1,5 @@
+use std::net::TcpListener;
+
 // Every file in Rust is treated as a module
 pub struct Server {
     addr: String,
@@ -11,6 +13,7 @@ impl Server {
     }
 
     pub fn run(self) {
+        let listener = TcpListener::bind(&self.addr).unwrap();
         println!("Running on {} ", self.addr);
     }
 }
