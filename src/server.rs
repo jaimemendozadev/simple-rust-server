@@ -1,3 +1,4 @@
+use std::io::Read;
 use std::net::TcpListener;
 
 // Every file in Rust is treated as a module
@@ -18,7 +19,16 @@ impl Server {
 
         loop {
             match listener.accept() {
-                Ok((stream, addr)) => {}
+                Ok((mut stream, _)) => {
+                    let mut buffer = [0; 1024].to_vec();
+                    match stream.read(&mut buffer) {
+                        Ok(_) => {
+                            println!("Received a request: {:#?} ", String::from_utf8(buffer))
+                        }
+
+                        Err(e) => println!("Failed to read from connection: {} ", e),
+                    }
+                }
                 Err(e) => print!("Failed to establish a connection: {} ", e),
             }
         }
